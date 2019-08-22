@@ -6,5 +6,5 @@ CXX_FLAGS = -fPIC -O2 -g -std=c++11 -msse2
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/zhou/Desktop/Agora_RTM_SDK_for_Linux/samples/Agora-RTM-Tutorial-Linux-Server/include 
+CXX_INCLUDES = -I"/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/include" 
 

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/zhou/Desktop/Agora_RTM_SDK_for_Linux/samples/Agora-RTM-Tutorial-Linux-Server/rtmServerDemo.cpp" "/home/zhou/Desktop/Agora_RTM_SDK_for_Linux/samples/Agora-RTM-Tutorial-Linux-Server/build/CMakeFiles/rtmServerDemo.dir/rtmServerDemo.cpp.o"
+  "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/rtmServerDemo.cpp" "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build/CMakeFiles/rtmServerDemo.dir/rtmServerDemo.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

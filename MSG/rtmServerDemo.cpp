@@ -15,7 +15,7 @@
 
 using namespace std;
 
-string APP_ID = "8a9a81ca98f4430d84f18afb1227e47c";
+string APP_ID = "0ccd38ee0fe749789a336f9901cf910b";
 
 class RtmEventHandler: public agora::rtm::IRtmServiceEventHandler {
   public:
@@ -142,17 +142,13 @@ class Demo {
     }
 
   public:
-    bool login() {
-        cout << "Please enter userID (literal \"null\" or starting " 
-             << "with space is not allowed, no more than 64 charaters!):"
-             << endl;
-        string userID;
-        getline(std::cin, userID);
+    bool login(string ID) {
+        string userID=ID;
+        cout << "自身ID:" <<userID<<endl;
         if (rtmService_->login(APP_ID.c_str(), userID.c_str())) {
             cout << "login failed!" << endl;
             return false;
         }
-        cout << "here" << endl;
         return true;
     }
 
@@ -229,28 +225,9 @@ class Demo {
 };
 
 int main(int argc, const char * argv[]) {
-    if (argc != 2) {
-        cout << "Usage: ./rtmServerDemo <AppID>" << endl;
-        exit(-1);
-    }
-    APP_ID = argv[1];
-    int count;
-    while(true) {
-        cout << "输入多少个RTM实例"<< "被限制3个" << endl;
-        string input;
-        getline(std::cin, input);
-        try {
-            count = std::stoi(input);
-        } catch (...) {
-            cout << "无效输入" << endl;
-            continue;
-        }
-        if (count <= 0 || count > 3) {
-            cout << "有效: 1~3" << endl;
-            continue;
-        }
-        break;
-    }
+    APP_ID = "0ccd38ee0fe749789a336f9901cf910b";
+    int count=1;
+    cout << "有"<< count <<"个RTM实例"<< "，被限制3个" << endl;
 
     std::vector<std::unique_ptr<Demo>> DemoList;
     std::vector<bool> loginStatus;
@@ -262,61 +239,21 @@ int main(int argc, const char * argv[]) {
     }
     int index;
     while(true) {
-        cout << "请输入将要使用的rtm实例"<< endl;
-        string input_idx;
-        getline(std::cin, input_idx);
-        try {
-            index = std::stoi(input_idx);
-        } catch (...) {
-            cout << "无效输入" << endl;
-            continue;
-        }
-        if (index < 1 || index > count) {
-            cout << "无效范围" << endl;
-            continue;
-        }
-
+	index=1;
+	cout << "将要使用"<<index<<"个rtm实例"<< endl;
+	string userID="1234";
         while(true) {
             if (!loginStatus[index-1]) {
-                if (!DemoList[index-1]->login())
+                if (!DemoList[index-1]->login(userID))
                     continue;
                 loginStatus[index-1] = true;
             }
-            cout << "1: peer to peer chat\n"
-                 << "2: group chat\n"
-                 << "3: logout"
-                 << endl;
-            cout << "please input your choice: " << endl;
-            string input_choice;
-            getline(std::cin, input_choice);
-            int choice = 0;
-            try {
-                choice = std::stoi(input_choice);
-            } catch (...) {
-                cout << "无效输入" << endl;
-                continue;
-            }
-            if (choice == 1) {
-                cout << "输入目标用户id" << endl;
-                string dst;
-                getline(std::cin, dst);
-                DemoList[index-1]->p2pChat(dst);
-                continue;
-            } else if (choice == 2) {
-                cout << "输入频道编号" << endl;
-                string channel;
-                getline(std::cin, channel);
-                DemoList[index-1]->groupChat(channel);
-                continue;
-            } else if (choice == 3) {
-                DemoList[index-1]->logout();
-                loginStatus[index-1] = false;
-                break;
-            } else {
-                continue;
-            }
+            int choice = 1;
+            cout<<"p2p chat\n";
+            string dst="12345";
+	    cout<<"目标用户id:"<< dst << endl;
+            DemoList[index-1]->p2pChat(dst);
         }
-
         cout << "Quit the demo? yes/no" << endl;
         string input_quit;
         getline(std::cin, input_quit);
