@@ -27,6 +27,7 @@ using namespace std;
 
 int MSG_MAXCHAR=100;
 int RECV_PORT=9988;
+int SEND_PORT=9987;
 char IP_ADDRESS[20]="127.0.0.1";
 
 string APP_ID = "0ccd38ee0fe749789a336f9901cf910b";
@@ -59,10 +60,28 @@ class RtmEventHandler: public agora::rtm::IRtmServiceEventHandler {
              << state << endl;
     }
 
+    //RECV
     virtual void onMessageReceivedFromPeer(const char *peerId,
                         const agora::rtm::IMessage *message) override {
+        //建立udp socket
+        cout<<"Start UDP Recv IP:"<<IP_ADDRESS<<",PORT:"<<SEND_PORT<<endl;
+        int socked_sg=socket(AF_INET,SOCK_DGRAM,0);
+        if(socked_sg<0)
+        {
+            printf("creat socket failed!\n");
+            exit(1);
+        }
+        struct sockaddr_in addr_send;
+        memset(&addr_send,0,sizeof(addr_send)); //每个字节都用0填充
+        addr_send.sin_family=AF_INET;//使用ipv4地址
+        addr_send.sin_port=htons(SEND_PORT);//端口
+        addr_send.sin_addr.s_addr=inet_addr(IP_ADDRESS);//IP地址
+        unsigned int len=sizeof(addr_send);
+        bind(socked_sg,(sockaddr *)&addr_send,sizeof(addr_send));//将socket与制定PORT和IP绑定
+
+        sendto(socked_sg,message->getText(),strlen(message->getText()),0,(struct sockaddr *)&addr_send,len);
         cout << "on message received from peer: peerId = " << peerId
-             << " message = " << message->getText() << endl;
+             << " message = " << message->getText() <<" ,send port:"<<SEND_PORT<< endl;
     }
 };
 
@@ -174,7 +193,7 @@ class Demo {
     void p2pChat(const std::string& dst) {
         //建立udp socket
 
-        cout<<"Start UDP IP:"<<IP_ADDRESS<<",PORT:"<<RECV_PORT<<endl;
+        cout<<"Start UDP Recv IP:"<<IP_ADDRESS<<",PORT:"<<RECV_PORT<<endl;
         int socked_fd=socket(AF_INET,SOCK_DGRAM,0);
         if(socked_fd<0)
         {
@@ -194,7 +213,7 @@ class Demo {
         while(true) {
             recvfrom(socked_fd,MSG,MSG_MAXCHAR,0,(sockaddr *)&addr_serv,&len);
             msg=(string)MSG;
-            cout<<"Recv:"<<msg<<endl;
+            cout<<"Recv:"<<msg<<" From:"<<RECV_PORT<<endl;
             if (msg.compare("quit") == 0) {
                 return;
             } else {
@@ -296,31 +315,3 @@ int main(int argc, const char * argv[]) {
 
     exit(0);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
