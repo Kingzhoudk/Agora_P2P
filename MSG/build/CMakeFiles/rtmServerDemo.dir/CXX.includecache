@@ -24,7 +24,7 @@ windows.h
 AgoraBase.h
 ../include/AgoraBase.h
 
-/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/rtmServerDemo.cpp
+/home/zhoudk/桌面/Agora/P2P_v1.0/rtmServerDemo.cpp
 iostream
 -
 memory
@@ -48,7 +48,23 @@ map
 algorithm
 -
 IAgoraService.h
-/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/IAgoraService.h
+/home/zhoudk/桌面/Agora/P2P_v1.0/IAgoraService.h
 IAgoraRtmService.h
-/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/IAgoraRtmService.h
+/home/zhoudk/桌面/Agora/P2P_v1.0/IAgoraRtmService.h
+cstring
+-
+errno.h
+-
+sys/types.h
+-
+sys/socket.h
+-
+netinet/in.h
+-
+arpa/inet.h
+-
+stdio.h
+-
+stdlib.h
+-
 

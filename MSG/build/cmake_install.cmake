@@ -1,4 +1,4 @@
-# Install script for directory: /home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)
+# Install script for directory: /home/zhoudk/桌面/Agora/P2P_v1.0
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/zhoudk/桌面/Agora/P2P_v1.0/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

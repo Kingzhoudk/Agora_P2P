@@ -10,10 +10,24 @@
 #include <map>
 #include <algorithm>
 
-#include "IAgoraService.h" 
+#include "IAgoraService.h"
 #include "IAgoraRtmService.h"
 
+//socket
+#include <cstring>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 using namespace std;
+
+int MSG_MAXCHAR=100;
+int RECV_PORT=9988;
+char IP_ADDRESS[20]="127.0.0.1";
 
 string APP_ID = "0ccd38ee0fe749789a336f9901cf910b";
 
@@ -55,7 +69,7 @@ class RtmEventHandler: public agora::rtm::IRtmServiceEventHandler {
 class ChannelEventHandler: public agora::rtm::IChannelEventHandler {
   public:
     ChannelEventHandler(string channel) {
-        channel_ = channel;    
+        channel_ = channel;
     }
     ~ChannelEventHandler() {}
 
@@ -102,7 +116,7 @@ class ChannelEventHandler: public agora::rtm::IChannelEventHandler {
                     agora::rtm::CHANNEL_MESSAGE_ERR_CODE state) override {
         cout << "send messageId: " << messageId << " state: " << state << endl;
     }
-    
+
     private:
         string channel_;
 };
@@ -124,8 +138,8 @@ class Demo {
         eventHandler_.reset(new RtmEventHandler());
         agora::rtm::IRtmService* p_rs = coreService_->createRtmService();
         rtmService_.reset(p_rs, [](agora::rtm::IRtmService* p) {
-            p->release();                                                           
-        });                                                                         
+            p->release();
+        });
 
         if (!rtmService_) {
             cout << "rtm service created failure!" << endl;
@@ -158,11 +172,29 @@ class Demo {
     }
 
     void p2pChat(const std::string& dst) {
+        //建立udp socket
+
+        cout<<"Start UDP IP:"<<IP_ADDRESS<<",PORT:"<<RECV_PORT<<endl;
+        int socked_fd=socket(AF_INET,SOCK_DGRAM,0);
+        if(socked_fd<0)
+        {
+            printf("creat socket failed!\n");
+            exit(1);
+        }
+        struct sockaddr_in addr_serv;
+        memset(&addr_serv,0,sizeof(addr_serv)); //每个字节都用0填充
+        addr_serv.sin_family=AF_INET;//使用ipv4地址
+        addr_serv.sin_port=htons(RECV_PORT);//端口
+        addr_serv.sin_addr.s_addr=inet_addr(IP_ADDRESS);//IP地址
+        unsigned int len=sizeof(addr_serv);
+        bind(socked_fd,(sockaddr *)&addr_serv,sizeof(addr_serv));//将socket与制定PORT和IP绑定
+
+        char MSG[MSG_MAXCHAR];
         string msg;
         while(true) {
-            cout << "please input message you want to send, or input \"quit\" "
-                 << "to leave p2pChat" << endl;
-            getline(std::cin, msg);
+            recvfrom(socked_fd,MSG,MSG_MAXCHAR,0,(sockaddr *)&addr_serv,&len);
+            msg=(string)MSG;
+            cout<<"Recv:"<<msg<<endl;
             if (msg.compare("quit") == 0) {
                 return;
             } else {
@@ -259,9 +291,9 @@ int main(int argc, const char * argv[]) {
         getline(std::cin, input_quit);
         if (input_quit.compare("yes") == 0) {
             break;
-        }         
+        }
     }
-    
+
     exit(0);
 }
 

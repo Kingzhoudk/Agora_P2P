@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)"
+CMAKE_SOURCE_DIR = /home/zhoudk/桌面/Agora/P2P_v1.0
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build"
+CMAKE_BINARY_DIR = /home/zhoudk/桌面/Agora/P2P_v1.0/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build/CMakeFiles" "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhoudk/桌面/Agora/P2P_v1.0/build/CMakeFiles /home/zhoudk/桌面/Agora/P2P_v1.0/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/zhoudk/桌面/Agora (1)/P2P_v1.0(复件)/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/zhoudk/桌面/Agora/P2P_v1.0/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
